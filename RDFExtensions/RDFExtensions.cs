@@ -4,6 +4,7 @@ using VDS.RDF;
 
 namespace RDFExtensions
 {
+    //TODO: Test
     public static class RDFExtensions
     {
         public static ILiteralNode ToLiteralNode(this string value) => new NodeFactory().CreateLiteralNode(value);
