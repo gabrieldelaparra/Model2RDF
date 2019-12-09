@@ -80,7 +80,10 @@ namespace ModelToRDF.Core
                         {
                             if (item is IDictionary<string, JToken> itemDict)
                             {
-                                itemDict.ToRDFGraph(graph);
+                                //TODO: Add reference to this object:
+                                var id = itemDict.GetId().ToUriNode(DefaultIri); 
+                                graph.Assert(entityNode, key.ToUriNode(DefaultIri), id);
+                                itemDict.ToRDFGraph(graph, id);
                             }
                             else
                             {
