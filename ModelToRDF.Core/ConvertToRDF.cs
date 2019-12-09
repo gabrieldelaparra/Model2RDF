@@ -35,7 +35,7 @@ namespace ModelToRDF.Core
         //TODO: This should be external. The user should be able to specify what is the Id.
         internal static string GetId(this IDictionary<string, JToken> jDictionary)
         {
-            var idPairs = jDictionary.Where(x => x.Key.ToLower() == "id");
+            var idPairs = jDictionary.Where(x => x.Key.ToLower() == "id" || x.Key.ToLower() == "@id");
             if (idPairs.Any())
             {
                 return idPairs.FirstOrDefault().Value.ToString();
@@ -45,11 +45,11 @@ namespace ModelToRDF.Core
 
         internal static void ToRDFGraph(this JToken jToken, string key, IUriNode entityNode, Graph graph)
         {
-            if (key.Equals("Id"))
+            if (key.ToLower().Equals("id") || key.ToLower().Equals("@id"))
             {
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
             }
-            else if (key.Contains("Id"))
+            else if (key.ToLower().EndsWith("id") || key.ToLower().EndsWith("ids"))
             {
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToUriNode(DefaultIri));
             }

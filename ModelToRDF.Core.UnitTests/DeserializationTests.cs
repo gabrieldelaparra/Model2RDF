@@ -23,11 +23,11 @@ namespace ModelToRDF.Core.UnitTests
         [Fact]
         public void ConvertXMLToRDF()
         {
-            var xmlFile = @"C:\Users\CHGADEL1\Desktop\Projects\21878\sample.pcmm";
+            var xmlFile = @"C:\Users\CHGADEL1\Desktop\Projects\21878\sample2.pcmm";
             var jsonDictionary = xmlFile.DeserializeXml();
             var graph = jsonDictionary.ToRDFGraph();
             var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\Projects\21878\xmlRdf.nt");
+            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\Projects\21878\xmlRdf2.nt");
         }
     }
 }
