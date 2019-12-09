@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="dotNetRDF" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="dotNetRDF">
       <HintPath>..\..\..\..\.nuget\packages\dotnetrdf\2.2.0\lib\netstandard2.0\dotNetRDF.dll</HintPath>
     </Reference>

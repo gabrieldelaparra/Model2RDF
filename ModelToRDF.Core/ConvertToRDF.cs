@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using Newtonsoft.Json.Linq;
 using RDFExtensions;
 using VDS.RDF;
 
@@ -11,109 +11,112 @@ namespace ModelToRDF.Core
     public static class ConvertToRDF
     {
         public static string DefaultIri { get; set; } = @"http://model2.rdf/";
-        
+
         //TODO: Should convert to a custom object (json/dictionary?), to avoid cyclic calls.
-        public static Graph ToRDFGraph(this object model)
+        public static Graph ToRDFGraph(this IDictionary<string, JToken> jDictionary, string defaultIri = "")
         {
+            if (!string.IsNullOrWhiteSpace(defaultIri)) DefaultIri = defaultIri;
             var graph = new Graph();
-            model.ToRDFGraph(graph);
+            jDictionary.ToRDFGraph(graph);
             return graph;
         }
-        
-        internal static void ToRDFGraph(this object model, Graph graph)
-        {
-            if (model is null) return;
 
-            var id = model.GetId();
+        internal static void ToRDFGraph(this IDictionary<string, JToken> jDictionary, Graph graph)
+        {
+            if (jDictionary is null) return;
+
+            var id = jDictionary.GetId();
 
             var entityNode = id.ToUriNode(DefaultIri);
 
-            model.ToRDFGraph(graph, entityNode);
+            jDictionary.ToRDFGraph(graph, entityNode);
         }
 
         //TODO: This should be external. The user should be able to specify what is the Id.
-        internal static string GetId(this object model)
+        internal static string GetId(this IDictionary<string, JToken> jDictionary)
         {
-            var type = model.GetType();
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var idProperty = properties.FirstOrDefault(x => x.Name.Equals("Id"));
-            return idProperty != null ? idProperty.GetValue(model).ToString() : Guid.NewGuid().ToString();
+            var idPairs = jDictionary.Where(x => x.Key.ToLower() == "id");
+            if (idPairs.Any())
+            {
+                return idPairs.FirstOrDefault().Value.ToString();
+            }
+            return Guid.NewGuid().ToString();
+        }
+
+        internal static void ToRDFGraph(this JToken jToken, string key, IUriNode entityNode, Graph graph)
+        {
+            if (key.Equals("Id"))
+            {
+                graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
+            }
+            else if (key.Contains("Id"))
+            {
+                graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToUriNode(DefaultIri));
+            }
+            else
+            {
+                graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
+            }
         }
 
         //TODO: This should be external. The user should be able to specify which properties to map and how.
         //TODO: Add ClassName as a Predicate, with the 'model.GetType().Name'
-        internal static void ToRDFGraph(this object model, Graph graph, IUriNode entityNode)
+        internal static void ToRDFGraph(this IDictionary<string, JToken> model, Graph graph, IUriNode entityNode)
         {
             if (model is null) return;
 
-            var type = model.GetType();
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => x.CanRead);
+            var keys = model.Keys;
 
-            foreach (var property in properties)
+            foreach (var key in keys)
             {
-                if (property.Name.Equals("Id"))
+                var value = model[key] as JToken;
+                if (value == null) return;
+                
+                if (value.Type.ToString().Equals("Array"))
                 {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToLiteralNode());
-                }
-                else if (property.Name.EndsWith("Id"))
-                {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToUriNode(DefaultIri));
-                }
-                else if (property.PropertyType == typeof(string))
-                {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToLiteralNode());
-                }
-                //TODO: It should not be a literal node
-                else if (property.PropertyType == typeof(int))
-                {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToLiteralNode());
-                }
-                //TODO: It should not be a literal node
-                else if (property.PropertyType == typeof(double))
-                {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToLiteralNode());
-                }
-                //TODO: It should not be a literal node
-                else if (property.PropertyType == typeof(bool))
-                {
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), property.GetValue(model).ToString().ToLiteralNode());
-                }
-                //TODO: Add Type DateTime
-                //TODO: Make recursive call here, for all types.
-                else if (property.PropertyType.IsArray)
-                {
-                    var elementType = property.PropertyType.GetElementType();
-                    if (elementType == typeof(string))
+                    if (value is JArray jArray)
                     {
-                        var stringValues = (IEnumerable<string>)property.GetValue(model);
-                        foreach (var stringValue in stringValues)
+                        foreach (var item in jArray)
                         {
-                            graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), stringValue.ToLiteralNode());
-                        }
-                    }
-                    else if (property.Name.EndsWith("Ids"))
-                    {
-                        var intValues = (int?[])property.GetValue(model);
-                        foreach (var intValue in intValues)
-                        {
-                            graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), intValue.ToString().ToUriNode(DefaultIri));
+                            if (item is IDictionary<string, JToken> itemDict)
+                            {
+                                itemDict.ToRDFGraph(graph);
+                            }
+                            else
+                            {
+                                if (item is JToken itemToken)
+                                {
+                                    itemToken.ToRDFGraph(key, entityNode, graph);
+                                }
+                                else
+                                {
+                                    throw new Exception($"Unhandled scenario: Key: {key}; Data: {item.ToString()}");
+                                }
+                            }
+
                         }
                     }
                     else
                     {
-                        var arrayValues = (IEnumerable<object>)property.GetValue(model);
-                        foreach (var arrayValue in arrayValues)
-                        {
-                            arrayValue.ToRDFGraph(graph);
-                        }
+                        throw new Exception($"Unhandled scenario: Key: {key}; Data: {value.ToString()}");
                     }
                 }
-                else //Custom Class Instance Object
+                else if (value.Type.ToString().Equals("Object"))
                 {
-                    var id = Guid.NewGuid().ToString().ToUriNode(DefaultIri);
-                    graph.Assert(entityNode, property.Name.ToUriNode(DefaultIri), id);
-                    property.GetValue(model).ToRDFGraph(graph, id);
+                    if (value is IDictionary<string, JToken> itemDict)
+                    {
+                        var id = Guid.NewGuid().ToString().ToUriNode(DefaultIri);
+                        graph.Assert(entityNode, key.ToUriNode(DefaultIri), id);
+                        itemDict.ToRDFGraph(graph, id);
+                    }
+                    else
+                    {
+                        throw new Exception($"Unhandled scenario: Key: {key}; Data: {value.ToString()}");
+                    }
+                }
+                else
+                {
+                    value.ToRDFGraph(key, entityNode, graph);
                 }
             }
         }
