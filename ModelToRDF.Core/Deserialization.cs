@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
 using Newtonsoft.Json;
@@ -9,17 +11,29 @@ namespace ModelToRDF.Core
     //TODO: Test
     public static class Deserialization
     {
-        public static Dictionary<string, JToken> DeserializeXml(this string xmlFilename)
+        private static string XmlOrJsonToJsonString(this string inputText)
         {
-            var doc = XDocument.Load(xmlFilename);
-            var jsonText = JsonConvert.SerializeXNode(doc);
-            return DeserializeJsonString(jsonText);
+            var output = inputText;
+            try {
+                var doc = XDocument.Parse(inputText);
+                output = JsonConvert.SerializeXNode(doc);
+            }
+            catch (Exception ex) {
+                Debug.Write(ex);
+            }
+            return output;
         }
 
-        public static Dictionary<string, JToken> DeserializeJson(this string jsonFilename)
+        public static Dictionary<string, JToken> XmlOrJsonFilenameToJsonData(this string inputFilename)
         {
-            var jsonText = File.ReadAllText(jsonFilename);
-            return DeserializeJsonString(jsonText);
+            var inputText = File.ReadAllText(inputFilename);
+            return XmlOrJsonTextToJsonData(inputText);
+        }
+
+        public static Dictionary<string, JToken> XmlOrJsonTextToJsonData(this string inputText)
+        {
+            var jsonString = XmlOrJsonToJsonString(inputText);
+            return DeserializeJsonString(jsonString);
         }
 
         private static Dictionary<string, JToken> DeserializeJsonString(this string jsonText)

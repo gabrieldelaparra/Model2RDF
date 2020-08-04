@@ -9,7 +9,7 @@ namespace ModelToRDF.Core.UnitTests
         public void ConvertJsonToRDF()
         {
             var jsonFile = @"Resources/test1.json";
-            var jsonDictionary = jsonFile.DeserializeJson();
+            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
 
             Assert.NotNull(graph);
@@ -22,7 +22,7 @@ namespace ModelToRDF.Core.UnitTests
         public void ConvertXmlToRDF()
         {
             var xmlFile = @"Resources/test1.xml";
-            var jsonDictionary = xmlFile.DeserializeXml();
+            var jsonDictionary = xmlFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
 
             Assert.NotNull(graph);
