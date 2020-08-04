@@ -8,7 +8,7 @@ namespace ModelToRDF.Core.UnitTests
         [Fact]
         public void ConvertJsonToRDF()
         {
-            var jsonFile = @"Resources\test1.json";
+            var jsonFile = @"Resources/test1.json";
             var jsonDictionary = jsonFile.DeserializeJson();
             var graph = jsonDictionary.ToRDFGraph();
 
@@ -21,7 +21,7 @@ namespace ModelToRDF.Core.UnitTests
         [Fact]
         public void ConvertXmlToRDF()
         {
-            var xmlFile = @"Resources\test1.xml";
+            var xmlFile = @"Resources/test1.xml";
             var jsonDictionary = xmlFile.DeserializeXml();
             var graph = jsonDictionary.ToRDFGraph();
 
