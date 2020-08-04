@@ -7,5 +7,6 @@ The tool can be tested at: [https://gabrieldelaparra.github.io/Model2RDF/]
 - The `http://model2.rdf` URI is used as namespace for all terms.
 - Does not take namespaces from XML files (yet) nor transforms yet.
 - The webapplication is hosted on github using Blazor and Webassembly.
+- Only a few unittests have been implemented: bugs are surely there.
 
 Please leave your feedback/issues.
