@@ -28,9 +28,7 @@ jobs:
 
         # Generate the website
         - name: Publish
-          run: |
-            cp wwwroot/index.html wwwroot/404.html
-            dotnet publish Model2RDF.Wasm/Model2RDF.Wasm.csproj --no-restore --configuration Release --output build
+          run: dotnet publish Model2RDF.Wasm/Model2RDF.Wasm.csproj --no-restore --configuration Release --output build
 
         # Publish the website
         - name: GitHub Pages action
