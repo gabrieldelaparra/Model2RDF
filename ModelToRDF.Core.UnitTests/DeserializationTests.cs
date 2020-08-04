@@ -1,9 +1,4 @@
-using Microsoft.AspNetCore.Routing;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using VDS.RDF.Writing;
+//using VDS.RDF.Writing;
 using Xunit;
 
 namespace ModelToRDF.Core.UnitTests
@@ -13,21 +8,27 @@ namespace ModelToRDF.Core.UnitTests
         [Fact]
         public void ConvertJsonToRDF()
         {
-            var jsonFile = @"C:\Dev\PGGA\PGGA.E3.RDF.UnitTest\Resources\test3.json";
+            var jsonFile = @"Resources\test1.json";
             var jsonDictionary = jsonFile.DeserializeJson();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"graph3.nt");
+
+            Assert.NotNull(graph);
+
+            //var writer = new NTriplesWriter() { SortTriples = true };
+            //writer.Save(graph, @"graph.json.nt");
         }
 
         [Fact]
-        public void ConvertXMLToRDF()
+        public void ConvertXmlToRDF()
         {
-            var xmlFile = @"C:\Users\CHGADEL1\Desktop\Projects\21878\sample2.pcmm";
+            var xmlFile = @"Resources\test1.xml";
             var jsonDictionary = xmlFile.DeserializeXml();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\Projects\21878\xmlRdf2.nt");
+
+            Assert.NotNull(graph);
+
+            //var writer = new NTriplesWriter() { SortTriples = true };
+            //writer.Save(graph, @"graph.xml.nt");
         }
     }
 }
