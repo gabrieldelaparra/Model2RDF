@@ -45,12 +45,21 @@ namespace ModelToRDF.Core
 
         internal static void ToRDFGraph(this JToken jToken, string key, IUriNode entityNode, Graph graph)
         {
+            if (string.IsNullOrWhiteSpace(jToken.ToString()) || jToken.ToString().Equals("0"))
+                return;
+
             if (key.ToLower().Equals("id") || key.ToLower().Equals("@id"))
             {
+                if (jToken.ToString().Equals("0"))
+                    return;
+
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
             }
             else if (key.ToLower().EndsWith("id") || key.ToLower().EndsWith("ids"))
             {
+                if (jToken.ToString().Equals("0"))
+                    return;
+
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToUriNode(DefaultIri));
             }
             else
@@ -71,7 +80,7 @@ namespace ModelToRDF.Core
             {
                 var value = model[key] as JToken;
                 if (value == null) return;
-                
+
                 if (value.Type.ToString().Equals("Array"))
                 {
                     if (value is JArray jArray)
@@ -81,7 +90,7 @@ namespace ModelToRDF.Core
                             if (item is IDictionary<string, JToken> itemDict)
                             {
                                 //TODO: Add reference to this object:
-                                var id = itemDict.GetId().ToUriNode(DefaultIri); 
+                                var id = itemDict.GetId().ToUriNode(DefaultIri);
                                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), id);
                                 itemDict.ToRDFGraph(graph, id);
                             }
