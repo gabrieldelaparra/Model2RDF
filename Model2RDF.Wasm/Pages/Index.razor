@@ -1,0 +1,55 @@
+﻿
+@page "/"
+@using ModelToRDF.Core
+<style type="text/css">
+    .useSpace {
+        padding: 0 4px 0 12px;
+    }
+
+    textarea {
+        overflow: scroll;
+        width: 100%;
+        height: 300px;
+    }
+</style>
+
+<h1>Covert XML/JSON to NTriples</h1>
+
+A simple XML/JSON to NTriples converter.
+<br />
+Try it with a sample, such as one from <a href="https://jsonapi.org/examples/">https://jsonapi.org/examples/</a>.
+
+<div class="col">
+    <div class="row">
+        <textarea class="useSpace m-1" @bind=@InputData placeholder="Input your data" />
+    </div>
+    <div class="row">
+        <textarea class="useSpace m-1" @bind=@OutputData placeholder="Translated data" readonly />
+    </div>
+</div>
+<button class="btn btn-primary float-right m-1" @onclick="@Convert">Convert</button>
+
+Currently a work in progress.
+<br />
+Implementation details are available at <a href="https://github.com/gabrieldelaparra/Model2RDF">https://github.com/gabrieldelaparra/Model2RDF</a> .
+Please leave your feedback/issues in the repo.
+
+
+@code {
+    public string InputData { get; set; }
+    public string OutputData { get; set; }
+
+    private void Convert()
+    {
+        try
+        {
+            var jsonData = Deserialization.XmlOrJsonTextToJsonData(InputData);
+            OutputData = string.Join(Environment.NewLine, ConvertToRDF.ToRDFGraph(jsonData).GraphToNTriples());
+        }
+        catch (Exception ex)
+        {
+            OutputData = $"Failed to read input data :{ex}";
+        }
+    }
+
+}

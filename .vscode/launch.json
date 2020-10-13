@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
+        {
+            //Not working as of 05.Aug.2020 on vscode (see https://github.com/dotnet/aspnetcore/issues/24584)
+            "type": "blazorwasm",
+            "name": "Launch and Debug Blazor WebAssembly Application",
+            "request": "launch",
+            "url": "https://localhost:5001/",
+            "trace": "verbose",
+        },
+    ]
+}

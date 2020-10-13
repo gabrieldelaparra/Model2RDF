@@ -4,6 +4,9 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using RDFExtensions;
 using VDS.RDF;
+using VDS.RDF.Parsing;
+using VDS.RDF.Writing;
+using VDS.RDF.Writing.Formatting;
 
 namespace ModelToRDF.Core
 {
@@ -19,6 +22,17 @@ namespace ModelToRDF.Core
             var graph = new Graph();
             jDictionary.ToRDFGraph(graph);
             return graph;
+        }
+
+        public static IEnumerable<string> GraphToNTriples(this Graph graph)
+        {
+            //Create a formatter
+            ITripleFormatter formatter = new NTriplesFormatter();
+            
+            //Print triples with this formatter
+            foreach (Triple t in graph.Triples) {
+                yield return t.ToString(formatter);
+            }
         }
 
         internal static void ToRDFGraph(this IDictionary<string, JToken> jDictionary, Graph graph)

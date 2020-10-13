@@ -14,15 +14,37 @@ namespace ModelToRDF.Core.UnitTests
         [Fact]
         public void ConvertJsonToRDF()
         {
-            var jsonFile = @"C:\Dev\00-Testing\SubAssemblies\Export\1KHF357506_AF1_UHK1_FEND.json";
-            var jsonDictionary = jsonFile.DeserializeJson();
+            var jsonFile = @"Resources/test1.json";
+            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, $"{jsonFile}.nt");
+
+            Assert.NotNull(graph);
+
+            //var writer = new NTriplesWriter() { SortTriples = true };
+            //writer.Save(graph, @"graph.json.nt");
         }
 
         [Fact]
-        public void ConvertXMLToRDF()
+        public void NonRes_ConvertJsonToRDF()
+        {
+            var jsonFile = @"C:\Dev\PGGA\PGGA.E3.RDF.UnitTest\Resources\test3.json";
+            var jsonDictionary = jsonFile.DeserializeJson();
+            var graph = jsonDictionary.ToRDFGraph();
+            var writer = new NTriplesWriter() { SortTriples = true };
+            writer.Save(graph, @"graph3.nt");
+        }
+
+        [Fact]
+        public void ConvertXmlToRDF()
+        {
+            var xmlFile = @"C:\Users\CHGADEL1\Desktop\Projects\21878\sample2.pcmm";
+            var jsonDictionary = xmlFile.DeserializeXml();
+            var graph = jsonDictionary.ToRDFGraph();
+            var writer = new NTriplesWriter() { SortTriples = true };
+            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\Projects\21878\xmlRdf2.nt");
+        }
+
+        public void NonRes_ConvertXMLToRDF()
         {
             var xmlFile = @"C:\Users\CHGADEL1\Desktop\ASK - Common BCU IED\REC670_Template1.pcmm";
             var jsonDictionary = xmlFile.DeserializeXml();

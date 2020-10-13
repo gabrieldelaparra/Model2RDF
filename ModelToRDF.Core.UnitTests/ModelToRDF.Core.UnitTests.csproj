@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\test1.json" />
+    <None Remove="Resources\test1.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="dotNetRDF" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
@@ -17,6 +22,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ModelToRDF.Core\ModelToRDF.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\test1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\test1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
