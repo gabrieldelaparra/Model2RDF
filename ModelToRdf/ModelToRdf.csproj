@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Gabriel De La Parra</Authors>
+    <Company />
+    <Description>A simple tool to create NTriples from XML or JSON data.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/gabrieldelaparra/ModelToRdf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gabrieldelaparra/ModelToRdf</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
