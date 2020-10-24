@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ModelToRDF.Core\ModelToRDF.Core.csproj" />
+    <ProjectReference Include="..\ModelToRDF.Core\ModelToRDF.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,10 +2,10 @@
 using System.Linq;
 using VDS.RDF;
 
-namespace RDFExtensions
+namespace ModelToRdf.Extensions
 {
     //TODO: Test
-    public static class RDFExtensions
+    public static class RdfExtensions
     {
         public static ILiteralNode ToLiteralNode(this string value) => new NodeFactory().CreateLiteralNode(value);
         public static ILiteralNode ToLiteralNode(this bool value) => new NodeFactory().CreateLiteralNode(value.ToString());

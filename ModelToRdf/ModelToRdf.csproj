@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RDFExtensions\RDFExtensions.csproj" />
+    <ProjectReference Include="..\RDFExtensions\ModelToRdf.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
