@@ -1,6 +1,5 @@
 ﻿
 @page "/"
-@using ModelToRDF.Core
 <style type="text/css">
     .useSpace {
         padding: 0 4px 0 12px;
@@ -43,8 +42,8 @@ Please leave your feedback/issues in the repo.
     {
         try
         {
-            var jsonData = Deserialization.XmlOrJsonTextToJsonData(InputData);
-            OutputData = string.Join(Environment.NewLine, ConvertToRDF.ToRDFGraph(jsonData).GraphToNTriples());
+            var jsonData = InputData.XmlOrJsonTextToJsonData();
+            OutputData = string.Join(Environment.NewLine, jsonData.ToRDFGraph().GraphToNTriples());
         }
         catch (Exception ex)
         {

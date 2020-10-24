@@ -6,13 +6,26 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ModelToRDF.Core
+namespace ModelToRdf
 {
     //TODO: Test
     public static class Deserialization
     {
-        private static string XmlOrJsonToJsonString(this string inputText)
-        {
+        public static Dictionary<string, JToken> XmlOrJsonFilenameToJsonData(this string inputFilename) {
+            var inputText = File.ReadAllText(inputFilename);
+            return XmlOrJsonTextToJsonData(inputText);
+        }
+
+        public static Dictionary<string, JToken> XmlOrJsonTextToJsonData(this string inputText) {
+            var jsonString = XmlOrJsonToJsonString(inputText);
+            return DeserializeJsonString(jsonString);
+        }
+
+        private static Dictionary<string, JToken> DeserializeJsonString(this string jsonText) {
+            return JsonConvert.DeserializeObject<Dictionary<string, JToken>>(jsonText);
+        }
+
+        private static string XmlOrJsonToJsonString(this string inputText) {
             var output = inputText;
             try {
                 var doc = XDocument.Parse(inputText);
@@ -21,24 +34,8 @@ namespace ModelToRDF.Core
             catch (Exception ex) {
                 Debug.Write(ex);
             }
+
             return output;
-        }
-
-        public static Dictionary<string, JToken> XmlOrJsonFilenameToJsonData(this string inputFilename)
-        {
-            var inputText = File.ReadAllText(inputFilename);
-            return XmlOrJsonTextToJsonData(inputText);
-        }
-
-        public static Dictionary<string, JToken> XmlOrJsonTextToJsonData(this string inputText)
-        {
-            var jsonString = XmlOrJsonToJsonString(inputText);
-            return DeserializeJsonString(jsonString);
-        }
-
-        private static Dictionary<string, JToken> DeserializeJsonString(this string jsonText)
-        {
-            return JsonConvert.DeserializeObject<Dictionary<string, JToken>>(jsonText);
         }
     }
 }

@@ -28,7 +28,7 @@ jobs:
 
       # Generate the website
       - name: Publish
-        run: dotnet publish Model2RDF.Wasm/Model2RDF.Wasm.csproj --no-restore --configuration Release --output build
+        run: dotnet publish ModelToRdf.Wasm/ModelToRdf.Wasm.csproj --no-restore --configuration Release --output build
 
       # Publish the website
       - name: GitHub Pages action

@@ -3,7 +3,7 @@ using System.Linq;
 using VDS.RDF.Writing;
 using Xunit;
 
-namespace ModelToRDF.Core.UnitTests
+namespace ModelToRdf.UnitTests
 {
     public class DeserializationTests
     {

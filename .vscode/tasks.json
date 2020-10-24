@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "test",
-                "${workspaceFolder}/ModelToRDF.Core.UnitTests/ModelToRDF.Core.UnitTests.csproj",
+                "${workspaceFolder}/ModelToRdf.UnitTests/ModelToRdf.UnitTests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -16,7 +16,7 @@
         {
             //Not working with base href in wwwroot/index.html
             "label": "run wasm",
-            "command": "dotnet run --project ${workspaceFolder}\\ModelToRDF.Core.UnitTests\\ModelToRDF.Core.UnitTests.csproj",
+            "command": "dotnet run --project ${workspaceFolder}\\ModelToRdf.UnitTests\\ModelToRdf.UnitTests.csproj",
             "type": "shell",
             "problemMatcher": "$msCompile",
 

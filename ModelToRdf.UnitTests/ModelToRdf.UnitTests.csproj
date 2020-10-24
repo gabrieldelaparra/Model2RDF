@@ -20,16 +20,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ModelToRDF.Core\ModelToRDF.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources\test1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\test1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModelToRdf\ModelToRdf.csproj" />
   </ItemGroup>
 
 </Project>
