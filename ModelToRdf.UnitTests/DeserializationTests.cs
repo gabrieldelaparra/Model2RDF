@@ -8,75 +8,54 @@ namespace ModelToRdf.UnitTests
     public class DeserializationTests
     {
         [Fact]
-        public void ConvertJsonToRDF()
+        public void ConvertSample1ToRDF()
         {
-            var jsonFile = @"Resources/test1.json";
-            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
+            var xmlFile = @"Resources/sample1.pcmm";
+            var jsonDictionary = xmlFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
-
             Assert.NotNull(graph);
-
-            //var writer = new NTriplesWriter() { SortTriples = true };
-            //writer.Save(graph, @"graph.json.nt");
+        }
+        [Fact]
+        public void ConvertSample2ToRDF()
+        {
+            const string file = @"Resources/sample2.pcmm";
+            var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
+            var graph = jsonDictionary.ToRDFGraph();
+            Assert.NotNull(graph);
+        }
+        [Fact]
+        public void ConvertSample3ToRDF()
+        {
+            const string file = @"Resources/sample3.json";
+            var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
+            var graph = jsonDictionary.ToRDFGraph();
+            Assert.NotNull(graph);
         }
 
         [Fact]
-        public void NonRes_ConvertJsonToRDF()
+        public void ConvertSample4ToRDF()
         {
-            var jsonFile = @"C:\Dev\PGGA\PGGA.E3.RDF.UnitTest\Resources\test3.json";
+            var jsonFile = @"Resources/sample4.json";
             var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"graph3.nt");
+            Assert.NotNull(graph);
         }
 
         [Fact]
-        public void ConvertXmlToRDF()
+        public void ConvertSample5ToRDF()
         {
-            var xmlFile = @"C:\Users\CHGADEL1\Desktop\Projects\21878\sample2.pcmm";
-            var jsonDictionary = xmlFile.XmlOrJsonFilenameToJsonData();
+            var jsonFile = @"Resources/sample5.xml";
+            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\Projects\21878\xmlRdf2.nt");
+            Assert.NotNull(graph);
         }
-
-        public void NonRes_ConvertXMLToRDF()
+        [Fact]
+        public void ConvertSample6ToRDF()
         {
-            var xmlFile = @"C:\Users\CHGADEL1\Desktop\ASK - Common BCU IED\REC670_Template1.pcmm";
-            var jsonDictionary = xmlFile.XmlOrJsonFilenameToJsonData();
+            var jsonFile = @"Resources/sample6.json";
+            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
-            var writer = new NTriplesWriter() { SortTriples = true };
-            writer.Save(graph, @"C:\Users\CHGADEL1\Desktop\ASK - Common BCU IED\xmlRdf2.nt");
-        }
-
-        [Fact]
-        public void Z0_AllPCMMToRDF()
-        {
-            const string path = @"C:\Users\CHGADEL1\Desktop\Projects\21878\PCMM\";
-            var files = Directory.EnumerateFiles(path, "*.pcmm", SearchOption.AllDirectories);
-
-            foreach (var file in files)
-            {
-                var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
-                var graph = jsonDictionary.ToRDFGraph();
-                var writer = new NTriplesWriter() { SortTriples = true };
-                writer.Save(graph, $"{file}.nt");
-            }
-        }
-
-        [Fact]
-        public void Z0_AllJsonToRDF()
-        {
-            const string path = @"C:\Users\CHGADEL1\Desktop\SubAssemblies\Export\JSON\";
-            var files = Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories);
-
-            foreach (var file in files.Skip(69))
-            {
-                var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
-                var graph = jsonDictionary.ToRDFGraph();
-                var writer = new NTriplesWriter() { SortTriples = true };
-                writer.Save(graph, $"{file}.nt");
-            }
+            Assert.NotNull(graph);
         }
     }
 }

@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\test1.json" />
-    <None Remove="Resources\test1.xml" />
+    <None Remove="Resources\sample1.pcmm" />
+    <None Remove="Resources\sample2.pcmm" />
+    <None Remove="Resources\sample3.json" />
+    <None Remove="Resources\sample4.json" />
+    <None Remove="Resources\sample5.xml" />
+    <None Remove="Resources\sample6.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +24,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\test1.json">
+    <Content Include="Resources\sample1.pcmm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\test1.xml">
+    <Content Include="Resources\sample2.pcmm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sample3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sample4.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sample5.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sample6.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
