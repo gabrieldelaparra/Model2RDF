@@ -23,6 +23,11 @@ namespace ModelToRdf
 
         //TODO: Should convert to a custom object (json/dictionary?), to avoid cyclic calls.
         public static Graph ToRDFGraph(this IDictionary<string, JToken> jDictionary, string defaultIri = "") {
+            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.LongTimePattern = "HH:mm:ss";
+            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.TimeSeparator = ":";
+            System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
+
             if (!string.IsNullOrWhiteSpace(defaultIri)) DefaultIri = defaultIri;
             var graph = new Graph();
             jDictionary.ToRDFGraph(graph);
@@ -47,16 +52,19 @@ namespace ModelToRdf
         }
 
         internal static void ToRDFGraph(this JToken jToken, string key, IUriNode entityNode, Graph graph) {
+            //TODO: This is very specific to E3 (==0)
             if (string.IsNullOrWhiteSpace(jToken.ToString()) || jToken.ToString().Equals("0"))
                 return;
 
             if (key.ToLower().Equals("id") || key.ToLower().Equals("@id")) {
+                //TODO: This is very specific to E3 (==0).
                 if (jToken.ToString().Equals("0"))
                     return;
 
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
             }
             else if (key.ToLower().EndsWith("id") || key.ToLower().EndsWith("ids")) {
+                //TODO: This is very specific to E3 (==0).
                 if (jToken.ToString().Equals("0"))
                     return;
 

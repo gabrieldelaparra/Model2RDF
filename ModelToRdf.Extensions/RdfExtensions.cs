@@ -17,9 +17,7 @@ namespace ModelToRdf.Extensions
 
         public static bool IsLiteral(this INode node) => node.NodeType.Equals(NodeType.Literal);
         public static ILiteralNode ToLiteralNode(this string value) => new NodeFactory().CreateLiteralNode(value);
-
-        public static ILiteralNode ToLiteralNode(this bool value) =>
-                new NodeFactory().CreateLiteralNode(value.ToString());
+        public static ILiteralNode ToLiteralNode(this bool value) => new NodeFactory().CreateLiteralNode(value.ToString());
 
         public static Uri ToUri(this string value, string iri) => UriFactory.Create($"{iri}{value}");
         public static Uri ToUri(this int value, string iri) => UriFactory.Create($"{iri}{value}");
