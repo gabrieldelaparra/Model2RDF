@@ -23,11 +23,6 @@ namespace ModelToRdf
 
         //TODO: Should convert to a custom object (json/dictionary?), to avoid cyclic calls.
         public static Graph ToRDFGraph(this IDictionary<string, JToken> jDictionary, string defaultIri = "") {
-            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.LongTimePattern = "HH:mm:ss";
-            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
-            System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.TimeSeparator = ":";
-            System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
-
             if (!string.IsNullOrWhiteSpace(defaultIri)) DefaultIri = defaultIri;
             var graph = new Graph();
             jDictionary.ToRDFGraph(graph);
