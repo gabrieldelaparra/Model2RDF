@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using VDS.RDF;
+using VDS.RDF.Nodes;
 
 namespace ModelToRdf.Extensions
 {

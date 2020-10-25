@@ -4,6 +4,7 @@ using System.Linq;
 using ModelToRdf.Extensions;
 using Newtonsoft.Json.Linq;
 using VDS.RDF;
+using VDS.RDF.Query.Expressions.Functions.XPath.String;
 using VDS.RDF.Writing.Formatting;
 
 namespace ModelToRdf
@@ -48,25 +49,44 @@ namespace ModelToRdf
 
         internal static void ToRDFGraph(this JToken jToken, string key, IUriNode entityNode, Graph graph) {
             //TODO: This is very specific to E3 (==0)
-            if (string.IsNullOrWhiteSpace(jToken.ToString()) || jToken.ToString().Equals("0"))
-                return;
-
+            //if (string.IsNullOrWhiteSpace(jToken.ToString()) || jToken.ToString().Equals("0"))
+            //    return;
+            //TODO: Implement: If has attribute "Id";
             if (key.ToLower().Equals("id") || key.ToLower().Equals("@id")) {
-                //TODO: This is very specific to E3 (==0).
-                if (jToken.ToString().Equals("0"))
-                    return;
-
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
             }
             else if (key.ToLower().EndsWith("id") || key.ToLower().EndsWith("ids")) {
-                //TODO: This is very specific to E3 (==0).
-                if (jToken.ToString().Equals("0"))
-                    return;
-
                 graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToUriNode(DefaultIri));
             }
             else {
-                graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
+                //TODO: Create a node for each type:
+                switch (jToken.Type) {
+                    case JTokenType.Date:
+                        var dateTime = DateTime.Parse(jToken.ToString());
+                        graph.Assert(entityNode, key.ToUriNode(DefaultIri), dateTime.ToString("yyyy-MM-dd HH:mm:ss").ToLiteralNode());
+                        break;
+                    case JTokenType.None:
+                    case JTokenType.Object:
+                    case JTokenType.Array:
+                    case JTokenType.Constructor:
+                    case JTokenType.Property:
+                    case JTokenType.Comment:
+                    case JTokenType.Integer:
+                    case JTokenType.Float:
+                    case JTokenType.String:
+                    case JTokenType.Boolean:
+                    case JTokenType.Null:
+                    case JTokenType.Undefined:
+                    case JTokenType.Raw:
+                    case JTokenType.Bytes:
+                    case JTokenType.Guid:
+                    case JTokenType.Uri:
+                    case JTokenType.TimeSpan:
+                    default:
+                        graph.Assert(entityNode, key.ToUriNode(DefaultIri), jToken.ToString().ToLiteralNode());
+                        break;
+                }
+                
             }
         }
 
