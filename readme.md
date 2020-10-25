@@ -1,4 +1,5 @@
 # A simple XML/JSON to NTriples converter
+![Build and Test](https://github.com/gabrieldelaparra/ModelToRdf/workflows/Build%20and%20Test/badge.svg) ![Publish to Nuget](https://github.com/gabrieldelaparra/ModelToRdf/workflows/Publish%20to%20Nuget/badge.svg) ![Publish application](https://github.com/gabrieldelaparra/ModelToRdf/workflows/Publish%20application/badge.svg)
 
 The tool can be tested at: [https://gabrieldelaparra.github.io/ModelToRdf/]
 
