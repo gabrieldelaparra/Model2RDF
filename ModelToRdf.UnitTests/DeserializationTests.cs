@@ -10,24 +10,27 @@ namespace ModelToRdf.UnitTests
         [Fact]
         public void ConvertSample1ToRDF()
         {
-            var xmlFile = @"Resources/sample1.pcmm";
-            var jsonDictionary = xmlFile.XmlOrJsonFilenameToJsonData();
+            //var inputFile = @"Resources/sample1.pcmm";
+            var inputFile = @"C:\Dev\PGGA\PGGA.PCM.UnitTests\bin\Debug\REL670_2.2SVK-TBNL-PW223_ED1-WithSignalIds.pcmm";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
+            graph.SerializeNTriples("REL670_2.2SVK-TBNL-PW223_ED1.nt");
+            
         }
         [Fact]
         public void ConvertSample2ToRDF()
         {
-            const string file = @"Resources/sample2.pcmm";
-            var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
+            const string inputFile = @"Resources/sample2.pcmm";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
         }
         [Fact]
         public void ConvertSample3ToRDF()
         {
-            const string file = @"Resources/sample3.json";
-            var jsonDictionary = file.XmlOrJsonFilenameToJsonData();
+            const string inputFile = @"Resources/sample3.json";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
         }
@@ -35,8 +38,8 @@ namespace ModelToRdf.UnitTests
         [Fact]
         public void ConvertSample4ToRDF()
         {
-            var jsonFile = @"Resources/sample4.json";
-            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
+            var inputFile = @"Resources/sample4.json";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
         }
@@ -44,16 +47,16 @@ namespace ModelToRdf.UnitTests
         [Fact]
         public void ConvertSample5ToRDF()
         {
-            var jsonFile = @"Resources/sample5.xml";
-            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
+            var inputFile = @"Resources/sample5.xml";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
         }
         [Fact]
         public void ConvertSample6ToRDF()
         {
-            var jsonFile = @"Resources/sample6.json";
-            var jsonDictionary = jsonFile.XmlOrJsonFilenameToJsonData();
+            var inputFile = @"Resources/sample6.json";
+            var jsonDictionary = inputFile.XmlOrJsonFilenameToJsonData();
             var graph = jsonDictionary.ToRDFGraph();
             Assert.NotNull(graph);
         }
