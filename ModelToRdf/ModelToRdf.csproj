@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Gabriel De La Parra</Authors>
     <Company />
@@ -14,14 +14,7 @@
   <ItemGroup>
     <PackageReference Include="dotnetrdf" Version="2.6.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Teronis.MSBuild.Packaging.ProjectBuildInPackage" Version="0.1.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ModelToRdf.Extensions\ModelToRdf.Extensions.csproj" PrivateAssets="all"/>
+    <PackageReference Include="Wororo.Utilities" Version="1.2.0.7" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using ModelToRdf.Extensions;
 using Newtonsoft.Json.Linq;
 using VDS.RDF;
-using VDS.RDF.Query.Expressions.Functions.XPath.String;
+using VDS.RDF.Parsing;
 using VDS.RDF.Writing.Formatting;
+using Wororo.Utilities;
 
 namespace ModelToRdf
 {
@@ -14,9 +15,17 @@ namespace ModelToRdf
     {
         public static string DefaultIri { get; set; } = @"http://model2.rdf/";
 
+        public static void SerializeNTriples(this Graph graph, string outputFilename) {
+            var triples = graph.GraphToNTriples();
+            //var writer = new NTriplesWriter(NTriplesSyntax.Rdf11) { SortTriples = true};
+            outputFilename.CreatePathIfNotExists();
+            File.WriteAllLines(outputFilename, triples);
+            //writer.Save(graph, outputFilename);
+        }
+
         public static IEnumerable<string> GraphToNTriples(this Graph graph) {
             //Create a formatter
-            ITripleFormatter formatter = new NTriplesFormatter();
+            ITripleFormatter formatter = new NTriplesFormatter(NTriplesSyntax.Rdf11);
 
             //Print triples with this formatter
             foreach (var t in graph.Triples) yield return t.ToString(formatter);
