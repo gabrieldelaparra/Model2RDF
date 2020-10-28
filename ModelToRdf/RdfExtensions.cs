@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using VDS.RDF;
-using VDS.RDF.Nodes;
 
-namespace ModelToRdf.Extensions
+namespace ModelToRdf
 {
     //TODO: Test
     public static class RdfExtensions
@@ -26,11 +25,7 @@ namespace ModelToRdf.Extensions
         public static Uri ToUri(this int value) => UriFactory.Create(value.ToString());
         public static IUriNode ToUriNode(this string value) => new NodeFactory().CreateUriNode(value.ToUri());
         public static IUriNode ToUriNode(this int value) => new NodeFactory().CreateUriNode(value.ToUri());
-
-        public static IUriNode ToUriNode(this string value, string iri) =>
-                new NodeFactory().CreateUriNode(value.ToUri(iri));
-
-        public static IUriNode ToUriNode(this int value, string iri) =>
-                new NodeFactory().CreateUriNode(value.ToUri(iri));
+        public static IUriNode ToUriNode(this string value, string iri) => new NodeFactory().CreateUriNode(value.ToUri(iri));
+        public static IUriNode ToUriNode(this int value, string iri) => new NodeFactory().CreateUriNode(value.ToUri(iri));
     }
 }
